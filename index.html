@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Solicitação de uso das impressoras 3D do laboratório maker da UFOB.">
+  <title>Maker · Agenda UFOB</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23163240'/%3E%3Cpath d='M8 22V10l8 6 8-6v12' fill='none' stroke='%235de0b3' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a href="#" class="brand" aria-label="Maker Agenda, início"><span class="brand-mark">M</span><span>maker<span class="brand-sub">UFOB · IMPRESSÃO 3D</span></span></a>
+    <div class="sidebar-label">LABORATÓRIO</div>
+    <nav aria-label="Navegação principal">
+      <button data-tab="requests" class="nav-button active"><span aria-hidden="true">▤</span> Solicitações <span id="pending-count" class="count">0</span></button>
+      <button data-tab="agenda" class="nav-button"><span aria-hidden="true">▦</span> Agenda</button>
+      <button data-tab="new" class="nav-button"><span aria-hidden="true">＋</span> Solicitar horário</button>
+      <button data-tab="mine" class="nav-button"><span aria-hidden="true">◷</span> Meus pedidos</button>
+      <button data-tab="admins" class="nav-button" hidden><span aria-hidden="true">⚙</span> Administradores</button>
+    </nav>
+    <div class="sidebar-bottom"><span class="equipment-label">EQUIPAMENTOS</span><div class="equipment"><span class="printer-dot p1"></span> Impressora 01</div><div class="equipment"><span class="printer-dot p2"></span> Impressora 02</div><p>Horários de Brasília<br>America/Bahia · UTC−3</p></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span>Laboratório maker <span class="topbar-divider">/</span> Agendamento</span><div class="account"><span id="account-label">Acesso institucional</span><button id="signout" class="button small secondary" hidden>Sair</button></div></header>
+    <div id="demo-banner" class="demo-banner" hidden><div><strong>Demonstração interativa</strong><span> Dados fictícios. As alterações desaparecem ao recarregar.</span></div><label>Visualizar como <select id="demo-role"><option value="admin">Responsável principal</option><option value="delegate">Administrador cadastrado</option><option value="user">Solicitante</option></select></label></div>
+    <main>
+      <section id="auth-panel" class="auth-card" hidden>
+        <span class="eyebrow">ACESSO INSTITUCIONAL</span><h1>Seu projeto começa aqui.</h1><p>Entre com seu e-mail @ufob.edu.br para solicitar horários e acompanhar seus pedidos.</p>
+        <form id="login-form"><label for="login-email">E-mail institucional</label><input id="login-email" type="email" autocomplete="email" placeholder="seu.nome@ufob.edu.br" required><button class="button primary" type="submit">Receber link de acesso</button></form><p id="login-message" role="status"></p><p class="muted">O link enviado ao seu e-mail confirma sua identidade. Nenhuma senha é necessária.</p>
+      </section>
+      <div id="app-content" hidden>
+        <div class="page-heading"><div><span class="eyebrow" id="page-eyebrow">PAINEL DO RESPONSÁVEL</span><h1 id="page-title">Solicitações</h1><p id="page-description">Analise os pedidos na ordem em que chegaram.</p></div><button id="new-request" class="button primary">＋ Solicitar horário</button></div>
+        <div id="stats" class="stats"><div class="stat"><span>Pendentes</span><strong id="stat-pending">0</strong><small>Aguardando análise</small></div><div class="stat"><span>Na agenda</span><strong id="stat-approved">0</strong><small>Reservas futuras aprovadas</small></div><div class="stat"><span>Impressoras</span><strong>02</strong><small>Agendas independentes</small></div></div>
+        <section id="requests-view" class="view">
+          <div class="toolbar"><div class="segmented" aria-label="Filtrar solicitações"><button data-status="pending" class="selected">Pendentes</button><button data-status="all">Histórico</button></div><span class="sort-label">Ordem de envio · mais antigas primeiro</span><button class="button small secondary refresh">Atualizar</button></div>
+          <div id="requests-list" class="cards"></div>
+        </section>
+        <section id="agenda-view" class="view" hidden>
+          <div class="toolbar wrap"><label class="inline-field">Impressora <select id="agenda-printer"><option value="all">Todas</option><option value="1">Impressora 01</option><option value="2">Impressora 02</option></select></label><label class="inline-field">A partir de <input id="agenda-from" type="date"></label><span class="sort-label">Data e horário de uso</span><button class="button small secondary refresh">Atualizar</button></div><div id="agenda-list"></div>
+        </section>
+        <section id="new-view" class="view" hidden>
+          <div class="form-layout"><form id="request-form" class="form-card">
+            <h2>Informações do projeto</h2><label for="request-name">Seu nome</label><input id="request-name" autocomplete="name" minlength="2" maxlength="100" required placeholder="Nome completo">
+            <label for="request-title">Nome do projeto</label><input id="request-title" minlength="3" maxlength="120" required placeholder="Ex.: Protótipo de suporte para sensor">
+            <label for="request-description">Descrição</label><textarea id="request-description" rows="3" maxlength="1500" required placeholder="Descreva brevemente o que pretende imprimir."></textarea>
+            <div class="form-grid"><div><label for="request-printer">Impressora</label><select id="request-printer"><option value="1">Impressora 01</option><option value="2">Impressora 02</option></select></div><div><label for="request-date">Dia de uso</label><input id="request-date" type="date" required></div><div><label for="request-time">Horário de início</label><input id="request-time" type="time" required value="09:00"></div><div><label for="request-duration">Duração estimada (horas)</label><input id="request-duration" type="number" min="0.25" max="72" step="0.25" value="2" required></div></div>
+            <p id="end-preview" class="end-preview"></p><button class="button primary" type="submit">Enviar solicitação</button><p class="muted">O horário só fica reservado após a aprovação.</p>
+          </form><aside class="help-card"><span class="eyebrow">COMO FUNCIONA</span><h2>Da ideia à impressão.</h2><ol><li><strong>Envie seu pedido</strong><span>Escolha uma impressora e o período de uso.</span></li><li><strong>Aguarde a análise</strong><span>O responsável verifica os pedidos por ordem de envio.</span></li><li><strong>Confira a resposta</strong><span>Acompanhe a decisão em Meus pedidos. Se aprovado, o horário entra na agenda.</span></li></ol><div class="notice">Considere toda a duração da impressão. Se ela atravessar a meia-noite, o período também ocupará o dia seguinte.</div></aside></div>
+        </section>
+        <section id="mine-view" class="view" hidden><div class="toolbar"><span class="sort-label">Seus pedidos · mais recentes primeiro</span><button class="button small secondary refresh">Atualizar</button></div><div id="mine-list" class="cards"></div></section>
+        <section id="admins-view" class="view" hidden>
+          <div class="form-layout">
+            <form id="admin-form" class="form-card">
+              <h2>Cadastrar administrador</h2>
+              <label for="admin-name">Nome</label><input id="admin-name" minlength="2" maxlength="100" required placeholder="Nome completo" autocomplete="off">
+              <label for="admin-email">E-mail institucional</label><input id="admin-email" type="email" required placeholder="nome@ufob.edu.br" autocomplete="off">
+              <p class="muted">Essa pessoa poderá consultar todas as solicitações e aprovar ou não aprovar pedidos. O acesso será liberado após confirmar o e-mail no login.</p>
+              <button type="submit" class="button primary">Cadastrar administrador</button>
+              <p class="muted">Nenhum convite é enviado automaticamente. Oriente a pessoa a entrar no aplicativo com o e-mail cadastrado.</p>
+            </form>
+            <aside class="help-card"><span class="eyebrow">CONTROLE DE ACESSO</span><h2>Você gerencia a equipe.</h2><p>Somente o responsável principal pode cadastrar ou remover administradores.</p><p>Os demais administradores analisam os pedidos, mas não podem conceder acesso a outras pessoas.</p><div class="notice">Seu acesso principal não pode ser removido por esta tela. Remover um administrador encerra suas permissões de gestão nas próximas consultas ao banco.</div></aside>
+          </div>
+          <div class="toolbar admin-toolbar"><h2>Administradores cadastrados</h2><button class="button small secondary refresh">Atualizar</button></div>
+          <div id="admins-list" class="cards"></div>
+        </section>
+      </div>
+      <div id="fatal-error" class="notice error" role="alert" hidden></div>
+    </main>
+    <footer>Maker · UFOB <span>Disponibilidade compartilhada. Dados pessoais restritos.</span></footer>
+  </div>
+  <dialog id="decision-dialog"><form id="decision-form"><span class="eyebrow">ANÁLISE DO PEDIDO</span><h2 id="decision-title">Não aprovar solicitação</h2><p id="decision-project"></p><label for="decision-reason">Motivo <span class="muted">(opcional)</span></label><textarea id="decision-reason" rows="3" maxlength="500" placeholder="Uma orientação breve para o solicitante."></textarea><div class="dialog-actions"><button type="button" id="close-dialog" class="button secondary">Voltar</button><button type="submit" class="button danger">Não aprovar</button></div></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script src="config.js"></script><script src="domain.js"></script><script src="app.js"></script>
+</body>
+</html>
