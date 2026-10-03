@@ -6,7 +6,7 @@
   <meta name="description" content="Solicitação de uso das impressoras 3D do laboratório maker da UFOB.">
   <title>Maker · Agenda UFOB</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23163240'/%3E%3Cpath d='M8 22V10l8 6 8-6v12' fill='none' stroke='%235de0b3' stroke-width='3'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261003">
 </head>
 <body>
   <aside class="sidebar">
@@ -37,7 +37,7 @@
           <div id="requests-list" class="cards"></div>
         </section>
         <section id="agenda-view" class="view" hidden>
-          <div class="toolbar wrap"><label class="inline-field">Impressora <select id="agenda-printer"><option value="all">Todas</option><option value="1">Impressora 01</option><option value="2">Impressora 02</option></select></label><label class="inline-field">A partir de <input id="agenda-from" type="date"></label><span class="sort-label">Data e horário de uso</span><button class="button small secondary refresh">Atualizar</button></div><div id="agenda-list"></div>
+          <div class="toolbar wrap"><label class="inline-field">Impressora <select id="agenda-printer"><option value="all">Todas</option><option value="1">Impressora 01</option><option value="2">Impressora 02</option></select></label><label class="inline-field">Data de referência <input id="agenda-from" type="date"></label><span class="sort-label">Horário de Brasília</span><button class="button small secondary refresh">Atualizar</button></div><div class="calendar-toolbar"><div class="segments" aria-label="Visualização da agenda"><button type="button" class="segment selected" data-calendar="list" aria-pressed="true">Lista</button><button type="button" class="segment" data-calendar="week" aria-pressed="false">Semana</button><button type="button" class="segment" data-calendar="month" aria-pressed="false">Mês</button></div><div class="calendar-navigation"><button type="button" id="calendar-prev" class="button small secondary" aria-label="Período anterior">←</button><button type="button" id="calendar-today" class="button small secondary">Hoje</button><button type="button" id="calendar-next" class="button small secondary" aria-label="Próximo período">→</button></div></div><p id="calendar-hint" class="muted" hidden>No celular, deslize o calendário mensal para os lados para ver todos os dias.</p><h2 id="calendar-period" class="calendar-period"></h2><div id="agenda-list"></div>
         </section>
         <section id="new-view" class="view" hidden>
           <div class="form-layout"><form id="request-form" class="form-card">
@@ -55,7 +55,7 @@
               <h2>Cadastrar administrador</h2>
               <label for="admin-name">Nome</label><input id="admin-name" minlength="2" maxlength="100" required placeholder="Nome completo" autocomplete="off">
               <label for="admin-email">E-mail institucional</label><input id="admin-email" type="email" required placeholder="nome@ufob.edu.br" autocomplete="off">
-              <p class="muted">Essa pessoa poderá consultar todas as solicitações e aprovar ou não aprovar pedidos. O acesso será liberado após confirmar o e-mail no login.</p>
+              <p class="muted">Essa pessoa poderá consultar todas as solicitações aprovar ou não aprovar pedidos e cancelar reservas com justificativa. O acesso será liberado após confirmar o e-mail no login.</p>
               <button type="submit" class="button primary">Cadastrar administrador</button>
               <p class="muted">Nenhum convite é enviado automaticamente. Oriente a pessoa a entrar no aplicativo com o e-mail cadastrado.</p>
             </form>
@@ -69,8 +69,9 @@
     </main>
     <footer>Maker · UFOB <span>Disponibilidade compartilhada. Dados pessoais restritos.</span></footer>
   </div>
+  <dialog id="cancel-dialog"><form id="cancel-form"><span class="eyebrow">CANCELAMENTO PELO ADMINISTRADOR</span><h2>Cancelar reserva</h2><p id="cancel-project"></p><p>O pedido ficará no histórico como cancelado e o horário será liberado na agenda.</p><label for="cancel-reason">Motivo do cancelamento</label><textarea id="cancel-reason" rows="3" maxlength="500" minlength="3" required placeholder="Informe o motivo para o solicitante consultar no aplicativo."></textarea><div class="dialog-actions"><button type="button" id="close-cancel" class="button secondary">Voltar</button><button type="submit" class="button danger">Confirmar cancelamento</button></div></form></dialog>
   <dialog id="decision-dialog"><form id="decision-form"><span class="eyebrow">ANÁLISE DO PEDIDO</span><h2 id="decision-title">Não aprovar solicitação</h2><p id="decision-project"></p><label for="decision-reason">Motivo <span class="muted">(opcional)</span></label><textarea id="decision-reason" rows="3" maxlength="500" placeholder="Uma orientação breve para o solicitante."></textarea><div class="dialog-actions"><button type="button" id="close-dialog" class="button secondary">Voltar</button><button type="submit" class="button danger">Não aprovar</button></div></form></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <script src="config.js"></script><script src="domain.js"></script><script src="app.js"></script>
+  <script src="config.js"></script><script src="domain.js?v=20261003"></script><script src="app.js?v=20261003"></script>
 </body>
 </html>

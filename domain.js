@@ -13,5 +13,12 @@
   function overlaps(a,b){return Number(a.printer_id)===Number(b.printer_id)&&new Date(a.starts_at)<new Date(b.ends_at)&&new Date(b.starts_at)<new Date(a.ends_at);}
   function fifo(rows){return [...rows].sort((a,b)=>new Date(a.created_at)-new Date(b.created_at)||String(a.id).localeCompare(String(b.id)));}
   function chronological(rows){return [...rows].sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at)||Number(a.printer_id)-Number(b.printer_id)||String(a.id).localeCompare(String(b.id)));}
-  const api={zone,institutional,dateKey,period,overlaps,fifo,chronological};root.MakerDomain=api;if(typeof module!=='undefined')module.exports=api;
+  function shiftDate(date,days){const d=new Date(`${date}T12:00:00-03:00`);d.setUTCDate(d.getUTCDate()+days);return dateKey(d);}
+  function calendarRange(date,mode){
+    const d=new Date(`${date}T12:00:00-03:00`);
+    if(mode==='week'){const start=shiftDate(date,-((d.getUTCDay()+6)%7));return {start,end:shiftDate(start,7)};}
+    const start=date.slice(0,7)+'-01';const next=new Date(`${start}T12:00:00-03:00`);next.setUTCMonth(next.getUTCMonth()+1);return {start,end:dateKey(next)};
+  }
+  function inDay(row,day){return new Date(row.starts_at)<new Date(`${shiftDate(day,1)}T00:00:00-03:00`)&&new Date(row.ends_at)>new Date(`${day}T00:00:00-03:00`);}
+  const api={shiftDate,calendarRange,inDay,zone,institutional,dateKey,period,overlaps,fifo,chronological};root.MakerDomain=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
